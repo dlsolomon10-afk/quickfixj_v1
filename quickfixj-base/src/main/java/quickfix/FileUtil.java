@@ -25,6 +25,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -145,7 +146,7 @@ public class FileUtil {
                 break;
             case URL:
                 try {
-                    URL url = new URL(name);
+                    URL url = URI.create(name).toURL();
                     URLConnection urlConnection = url.openConnection();
                     if (urlConnection instanceof HttpURLConnection) {
                         HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;

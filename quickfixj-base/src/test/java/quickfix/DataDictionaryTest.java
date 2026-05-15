@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.ByteArrayInputStream;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Locale;
@@ -620,7 +621,7 @@ public class DataDictionaryTest {
     // Support finding DD in classpath
     @Test
     public void testDictionaryInClassPath() throws Exception {
-        URLClassLoader customClassLoader = new URLClassLoader(new URL[] { new URL("file:etc") },
+        URLClassLoader customClassLoader = new URLClassLoader(new URL[] { URI.create("file:etc").toURL() },
                 getClass().getClassLoader());
         Thread currentThread = Thread.currentThread();
         ClassLoader previousContextClassLoader = currentThread.getContextClassLoader();
