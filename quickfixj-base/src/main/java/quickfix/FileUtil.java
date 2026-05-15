@@ -25,7 +25,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -146,7 +148,7 @@ public class FileUtil {
                 break;
             case URL:
                 try {
-                    URL url = URI.create(name).toURL();
+                    URL url = new URI(name).toURL();
                     URLConnection urlConnection = url.openConnection();
                     if (urlConnection instanceof HttpURLConnection) {
                         HttpURLConnection httpURLConnection = (HttpURLConnection)urlConnection;
@@ -158,6 +160,8 @@ public class FileUtil {
                             in = urlConnection.getInputStream();
                         }
                     }
+                } catch (URISyntaxException | MalformedURLException | IllegalArgumentException e) {
+                    // ignore - name is not a valid URL
                 } catch (IOException e) {
                     // ignore
                 }
