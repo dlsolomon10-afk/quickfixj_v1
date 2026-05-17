@@ -133,7 +133,7 @@ public class SerializationTest {
         try {
             Class<?> cl = Class.forName(className);
             res = createMessageWithDefaultValues(cl, maxGroupElts);
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+        } catch (ReflectiveOperationException e) {
             fail(e.getMessage());
         }
         return res;
@@ -218,7 +218,7 @@ public class SerializationTest {
 
     // Default values creation
     private static Message createMessageWithDefaultValues(Class<?> cl, int maxGroupElts)
-            throws InstantiationException, IllegalAccessException {
+            throws ReflectiveOperationException {
         // Setting Fields
         Message res = (Message) createFieldMapWithDefaultValues(cl);
 
@@ -244,14 +244,12 @@ public class SerializationTest {
         return res;
     }
 
-    private static Group createGroupWithDefaultValues(Class<?> cl) throws InstantiationException,
-            IllegalAccessException {
+    private static Group createGroupWithDefaultValues(Class<?> cl) throws ReflectiveOperationException {
         return (Group) createFieldMapWithDefaultValues(cl);
     }
 
-    private static FieldMap createFieldMapWithDefaultValues(Class<?> cl) throws InstantiationException,
-            IllegalAccessException {
-        FieldMap res = (FieldMap) cl.newInstance();
+    private static FieldMap createFieldMapWithDefaultValues(Class<?> cl) throws ReflectiveOperationException {
+        FieldMap res = (FieldMap) cl.getDeclaredConstructor().newInstance();
 
         final String SET_METHOD = "set";
         final String GET_METHOD = "get";
