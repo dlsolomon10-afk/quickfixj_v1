@@ -135,9 +135,9 @@ public class Message extends FieldMap {
     @Override
     public Object clone() {
         try {
-            final Message message = getClass().newInstance();
+            final Message message = getClass().getDeclaredConstructor().newInstance();
             return cloneTo(message);
-        } catch (final InstantiationException | IllegalAccessException e) {
+        } catch (final ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
